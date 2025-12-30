@@ -26,6 +26,9 @@ import Articles
 	let starred: Bool
 	let numberOfLines: Int
 	let iconSize: IconSize
+	
+	// Translation support
+	private static var translatedTitles = [String: String]()
 
 	init(article: Article, showFeedName: ShowFeedName, feedName: String?, byline: String?, iconImage: IconImage?, showIcon: Bool, numberOfLines: Int, iconSize: IconSize) {
 
@@ -64,6 +67,24 @@ import Articles
 		self.numberOfLines = numberOfLines
 		self.iconSize = iconSize
 
+	}
+	
+	/// Initialize with translated title support
+	static func withTranslation(article: Article, showFeedName: ShowFeedName, feedName: String?, byline: String?, iconImage: IconImage?, showIcon: Bool, numberOfLines: Int, iconSize: IconSize, feed: Feed?) async -> MainTimelineCellData {
+		var data = MainTimelineCellData(article: article, showFeedName: showFeedName, feedName: feedName, byline: byline, iconImage: iconImage, showIcon: showIcon, numberOfLines: numberOfLines, iconSize: iconSize)
+		
+		// Check if we need to update with translated title
+		if let feed = feed, feed.isTranslationEnabled == true {
+			let translationMode = AppDefaults.shared.translationMode
+			let formattedTitle = await ArticleStringFormatter.formattedTitle(article, feed: feed, translationMode: translationMode)
+			
+			// Update title if translation is available
+			if formattedTitle != data.title {
+				Self.translatedTitles[article.articleID] = formattedTitle
+			}
+		}
+		
+		return data
 	}
 
 	init() { //Empty
