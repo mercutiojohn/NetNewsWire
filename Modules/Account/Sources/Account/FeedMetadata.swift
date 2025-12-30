@@ -25,6 +25,7 @@ import Articles
 		case contentHash
 		case isNotifyAboutNewArticles
 		case isArticleExtractorAlwaysOn
+		case isTranslationEnabled
 		case conditionalGetInfo
 		case conditionalGetInfoDate
 		case cacheControlInfo
@@ -93,6 +94,14 @@ import Articles
 		didSet {
 			if isArticleExtractorAlwaysOn != oldValue {
 				valueDidChange(.isArticleExtractorAlwaysOn)
+			}
+		}
+	}
+	
+	var isTranslationEnabled: Bool? {
+		didSet {
+			if isTranslationEnabled != oldValue {
+				valueDidChange(.isTranslationEnabled)
 			}
 		}
 	}

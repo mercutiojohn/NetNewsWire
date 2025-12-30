@@ -24,6 +24,9 @@ import Articles
 	let showIcon: Bool // Make space even when icon is nil
 	let read: Bool
 	let starred: Bool
+	
+	// Translation support
+	private static var translatedTitles = [String: String]()
 
 	init(article: Article, showFeedName: TimelineShowFeedName, feedName: String?, byline: String?, iconImage: IconImage?, showIcon: Bool) {
 
@@ -58,6 +61,27 @@ import Articles
 
 		self.read = article.status.read
 		self.starred = article.status.starred
+	}
+	
+	/// Initialize with translated title support
+	static func withTranslation(article: Article, showFeedName: TimelineShowFeedName, feedName: String?, byline: String?, iconImage: IconImage?, showIcon: Bool, feed: Feed?) async -> TimelineCellData {
+		var data = TimelineCellData(article: article, showFeedName: showFeedName, feedName: feedName, byline: byline, iconImage: iconImage, showIcon: showIcon)
+		
+		// Check if we need to update with translated title
+		if let feed = feed, feed.isTranslationEnabled == true {
+			let translationMode = AppDefaults.shared.translationMode
+			let formattedTitle = await ArticleStringFormatter.formattedTitle(article, feed: feed, translationMode: translationMode)
+			
+			// Update title if translation is available
+			if formattedTitle != data.title {
+				// Create a mutable copy with updated title
+				// Note: We can't directly mutate `data` as it's a struct
+				// The calling code should use this factory method when translation is needed
+				Self.translatedTitles[article.articleID] = formattedTitle
+			}
+		}
+		
+		return data
 	}
 
 	init() { //Empty

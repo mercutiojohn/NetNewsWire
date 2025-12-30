@@ -162,6 +162,15 @@ import Articles
 			metadata.isArticleExtractorAlwaysOn = newValue
 		}
 	}
+	
+	public var isTranslationEnabled: Bool? {
+		get {
+			metadata.isTranslationEnabled
+		}
+		set {
+			metadata.isTranslationEnabled = newValue
+		}
+	}
 
 	public var externalID: String? {
 		get {

@@ -21,6 +21,7 @@ final class FeedInspectorViewController: UITableViewController {
 	@IBOutlet var nameTextField: UITextField!
 	@IBOutlet var notifyAboutNewArticlesSwitch: UISwitch!
 	@IBOutlet var alwaysShowReaderViewSwitch: UISwitch!
+	@IBOutlet var translationEnabledSwitch: UISwitch!
 	@IBOutlet var homePageLabel: InteractiveLabel!
 	@IBOutlet var feedURLLabel: InteractiveLabel!
 
@@ -46,6 +47,8 @@ final class FeedInspectorViewController: UITableViewController {
 		notifyAboutNewArticlesSwitch.setOn(feed.isNotifyAboutNewArticles ?? false, animated: false)
 
 		alwaysShowReaderViewSwitch.setOn(feed.isArticleExtractorAlwaysOn ?? false, animated: false)
+		
+		translationEnabledSwitch.setOn(feed.isTranslationEnabled ?? false, animated: false)
 
 		homePageLabel.text = feed.homePageURL
 		feedURLLabel.text = feed.url
@@ -100,6 +103,10 @@ final class FeedInspectorViewController: UITableViewController {
 
 	@IBAction func alwaysShowReaderViewChanged(_ sender: Any) {
 		feed.isArticleExtractorAlwaysOn = alwaysShowReaderViewSwitch.isOn
+	}
+	
+	@IBAction func translationEnabledChanged(_ sender: Any) {
+		feed.isTranslationEnabled = translationEnabledSwitch.isOn
 	}
 
 	@IBAction func done(_ sender: Any) {

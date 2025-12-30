@@ -20,6 +20,7 @@ final class FeedInspectorViewController: NSViewController, Inspector {
 	@IBOutlet var urlTextField: NSTextField?
 	@IBOutlet var isNotifyAboutNewArticlesCheckBox: NSButton!
 	@IBOutlet var isReaderViewAlwaysOnCheckBox: NSButton?
+	@IBOutlet var isTranslationEnabledCheckBox: NSButton?
 
 	private var feed: Feed? {
 		didSet {
@@ -108,6 +109,10 @@ final class FeedInspectorViewController: NSViewController, Inspector {
 	@IBAction func isReaderViewAlwaysOnChanged(_ sender: Any) {
 		feed?.isArticleExtractorAlwaysOn = (isReaderViewAlwaysOnCheckBox?.state ?? .off) == .on ? true : false
 	}
+	
+	@IBAction func isTranslationEnabledChanged(_ sender: Any) {
+		feed?.isTranslationEnabled = (isTranslationEnabledCheckBox?.state ?? .off) == .on ? true : false
+	}
 
 	// MARK: Notifications
 
@@ -143,8 +148,10 @@ private extension FeedInspectorViewController {
 		updateFeedURL()
 		updateNotifyAboutNewArticles()
 		updateIsReaderViewAlwaysOn()
+		updateIsTranslationEnabled()
 		windowTitle = feed?.nameForDisplay ?? NSLocalizedString("Feed Inspector", comment: "Feed Inspector window title")
 		isReaderViewAlwaysOnCheckBox?.isEnabled = true
+		isTranslationEnabledCheckBox?.isEnabled = true
 		view.needsLayout = true
 	}
 
@@ -181,6 +188,10 @@ private extension FeedInspectorViewController {
 
 	func updateIsReaderViewAlwaysOn() {
 		isReaderViewAlwaysOnCheckBox?.state = (feed?.isArticleExtractorAlwaysOn ?? false) ? .on : .off
+	}
+	
+	func updateIsTranslationEnabled() {
+		isTranslationEnabledCheckBox?.state = (feed?.isTranslationEnabled ?? false) ? .on : .off
 	}
 
 	func updateNotificationSettings() {
