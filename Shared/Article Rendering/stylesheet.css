@@ -45,6 +45,9 @@ a:hover {
 	--article-date-color: rgba(0, 0, 0, 0.5);
 	--table-cell-border-color: lightgray;
 	--sup-link-color: rgba(255, 255, 255, 0.9);
+	--article-translation-background: rgba(0, 0, 0, 0.03);
+	--secondary-text-color: rgba(0, 0, 0, 0.6);
+	--secondary-accent-color: rgba(0, 0, 255, 0.6);
 }
 
 @media(prefers-color-scheme: dark) {
@@ -57,6 +60,9 @@ a:hover {
 		--article-date-color: rgba(255, 255, 255, 0.5);
 		--table-cell-border-color: dimgray;
 		--code-background-color: #333;
+		--article-translation-background: rgba(255, 255, 255, 0.05);
+		--secondary-text-color: rgba(255, 255, 255, 0.6);
+		--secondary-accent-color: rgba(94, 158, 244, 0.8);
 	}
 }
 
@@ -546,4 +552,20 @@ a.footnote:hover,
 		padding: 10px;
 	}
 
+}
+
+/* Translation styling */
+.translated-title {
+color: var(--secondary-accent-color);
+font-size: 0.9em;
+font-style: italic;
+}
+
+.translation {
+margin-top: 0.5em;
+padding: 0.5em;
+background-color: var(--article-translation-background);
+border-left: 3px solid var(--feedlink-color);
+font-style: italic;
+color: var(--secondary-text-color);
 }

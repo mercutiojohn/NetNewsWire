@@ -15,6 +15,11 @@ enum FontSize: Int {
 	case veryLarge = 3
 }
 
+enum TranslationMode: Int {
+	case bilingual = 0  // Show original and translation side by side
+	case translationOnly = 1  // Show only translation
+}
+
 final class AppDefaults: Sendable {
 
 	static let defaultThemeName = "Default"
@@ -43,6 +48,10 @@ final class AppDefaults: Sendable {
 		static let defaultBrowserID = "defaultBrowserID"
 		static let currentThemeName = "currentThemeName"
 		static let articleContentJavascriptEnabled = "articleContentJavascriptEnabled"
+		
+		// Translation settings
+		static let translationTargetLanguage = "translationTargetLanguage"
+		static let translationMode = "translationMode"
 
 		// Hidden prefs
 		static let showDebugMenu = "ShowDebugMenu"
@@ -313,6 +322,25 @@ final class AppDefaults: Sendable {
 		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: Key.articleContentJavascriptEnabled)
+		}
+	}
+	
+	var translationTargetLanguage: String? {
+		get {
+			return AppDefaults.string(for: Key.translationTargetLanguage)
+		}
+		set {
+			AppDefaults.setString(for: Key.translationTargetLanguage, newValue)
+		}
+	}
+	
+	var translationMode: TranslationMode {
+		get {
+			let rawValue = UserDefaults.standard.integer(forKey: Key.translationMode)
+			return TranslationMode(rawValue: rawValue) ?? .bilingual
+		}
+		set {
+			UserDefaults.standard.set(newValue.rawValue, forKey: Key.translationMode)
 		}
 	}
 
